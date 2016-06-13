@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+
+    <title>VBSCs in U.S. </title>
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <style>
+      
+         body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: "Work Sans", sans-serif;
+        }
+        
+        h1 {
+            padding: 8px 25px 8px 15px;
+            margin: 0;
+            background: #1C9976;
+            color:black;
+            font-weight: 500;
+            font-size: 1.7em;
+            text-align: left;
+        }
+        
+        h2 {
+            margin: 0;
+            padding: 8px 25px 8px 15px;
+            color: #cc0066;
+            font-weight: 700;
+            font-size: 1.5em;
+            text-align: left;
+        }
+        
+        h3 {
+            margin: 0;
+            padding: 8px 25px 8px 15px;
+            color: #black;
+            font-weight: 500;
+            font-size: 1.4em;
+            text-align: left;
+            
+        }
+        
+        
+        #side-panel p {
+            margin: 8px 0 4px;
+            padding: 0 25px 0 15px;
+            color: #3d3d3d;
+            text-align: left;
+            font-size: 1em;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 67%;
+        }
+        
+       /*  #map {
+            width: 60%;
+            height: 540px;
+            margin: 10px 10%;
+            background: whitesmoke;
+            border: 2px solid #dddedf;
+        }*/
+        
+          #side-panel {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 33%;
+            background: #00cc99;
+            border-right: 2px solid #1C9976;
+            overflow-y: scroll;
+        }
+        
+       footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+        
+    </style>
+</head>
+
+<body>
+    
+    <div id="map"></div>
+    
+    <div id="side-panel">
+            <div id="intro">
+            <h1>Agricultural Value-Based Supply Chains</h1>
+
+            <p>This map is an online database of Agricultural Value-based supply chains from data collected from 2014-2015</p>
+
+            <p>Data was acquired from a primary source database of value-based supply chains collected through an AFRI Ag in the Middle Multi-state Project.</p>
+            
+            <p>Map developed by Heather Hyden</p>
+                
+            <h2>Select the boxes below to see where supply chains are located that fit your specifications </h2>    
+        </div>    
+
+        <h3>VBSC Type</h3>
+         <label>
+            <input type="checkbox" id="cbox1" value="cooperativ">Cooperative
+            <br>
+            <input type="checkbox" id="cbox2" value="csa">CSA
+            <br>
+            <input type="checkbox" id="cbox3" value="food_hub">Food Hub
+            <br>
+            <input type="checkbox" id="cbox4" value="online_de">Online Delivery
+        </label>
+        
+        <h3>Value Claims</h3>
+            <label>
+            <input type="checkbox" id="cbox5" value="accessabil">Accessibility
+            <br>
+            <input type="checkbox" id="cbox6" value="affordabil">Affordability
+            <br>
+            <input type="checkbox" id="cbox7" value="community">Community
+            <br>
+            <input type="checkbox" id="cbox8" value="education">Education
+            <br>
+            <input type="checkbox" id="cbox9" value="fair">Fair Trade
+            <br>
+            <input type="checkbox" id="cbox10" value="fresh">Fresh
+            <br>
+            <input type="checkbox" id="cbox11" value="health_nut">Health and Nutrition
+            <br>
+            <input type="checkbox" id="cbox12" value="humane_an">Humane:animals
+            <br>
+            <input type="checkbox" id="cbox13" value="organic">Organic
+            <br>
+            <input type="checkbox" id="cbox14" value="sustainabl">Sustainability
+            <br>
+            <input type="checkbox" id="cbox15" value="transparen">Transparency
+            <br>
+            <input type="checkbox" id="cbox16" value="ahsf">Food Safety    
+        
+        </label>
+
+        <h3>Products Available</h3>
+        <label>
+            <input type="checkbox" id="cbox17" value="eggs">eggs
+            <br>
+            <input type="checkbox" id="cbox18" value="meat">meat
+            <br>
+            <input type="checkbox" id="cbox19" value="dairy">dairy 
+            <br>
+            <input type="checkbox" id="cbox20" value="seafood">seafood
+            <br>
+            <input type="checkbox" id="cbox21" value="preserves">preserves/honey
+            <br>
+            <input type="checkbox" id="cbox22" value="value_adde">value-added/dry-goods 
+            <br>
+            <input type="checkbox" id="cbox23" value="produce">produce 
+        
+        </label>
+         </div>
+
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+
+    <script>
+        var options = {
+            center: [37.8, -93],
+            zoom: 4,
+            zoomControl: true
+        }
+        var map = L.map('map', options);
+
+        var tiles = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+
+            maxZoom: 18,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        $.getJSON('https://hlhyden1.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM sites', function (data) {
+            console.log(data); // you have access to the geojson data here!
+
+
+            var vbscs = L.geoJson(data, {
+                pointToLayer: function (properties, latlng) {
+                    return L.circleMarker(latlng, {
+                        opacity: 1,
+                        weight: 1,
+                        fillOpacity: .6,
+                        radius: 6,
+                        stroke: true,
+                        fillColor: 'green'
+
+                    });
+                },
+                onEachFeature: function (feature, layer) {
+
+                    var popup = '<b>Business Name:  </b>'+ feature.properties.business_n + '<br><b>Website:  </b>'+  feature.properties.business_w;
+
+                    layer.bindPopup(popup);
+
+                }
+            }).addTo(map);
+
+            var currentChecked = [];
+            $('input').on('change', function () {
+
+
+                var val = $(this).val();
+
+                if ($(this).attr('checked')) {
+                    currentChecked.push(val);
+                    filterSelection(currentChecked);
+                } else {
+
+                    var i = currentChecked.indexOf(val);
+                    if (val != 1) {
+                        currentChecked.splice(i, 1);
+                    }
+                    filterSelection(currentChecked);
+                }
+
+            });
+
+            var removedLayers = L.layerGroup();
+
+            function filterSelection(vals) {
+
+                // first add any layers from the removed layers
+                // and clear the removedLayers
+                removedLayers.eachLayer(function (layer) {
+
+                    map.addLayer(layer);
+                    removedLayers.removeLayer(layer);
+
+                });
+                // then loop through our currently displayed properties
+                // add them to the removedLayers group and remove from map
+
+                for (var i = 0; i < vals.length; i++) {
+
+                    vbscs.eachLayer(function (layer) {
+
+
+                        if (layer.feature.properties[vals[i]] == false) {
+
+                            removedLayers.addLayer(layer);
+                            map.removeLayer(layer);
+
+                        }
+
+                    });
+
+                }
+
+            }
+
+        });
+    </script>
+</body>
+
+
+</html>

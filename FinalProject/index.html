@@ -10,8 +10,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
     <style>
-      
-         body {
+        body {
             margin: 0;
             padding: 0;
             background: whitesmoke;
@@ -22,7 +21,7 @@
             padding: 8px 25px 8px 15px;
             margin: 0;
             background: #1C9976;
-            color:black;
+            color: black;
             font-weight: 500;
             font-size: 1.7em;
             text-align: left;
@@ -44,9 +43,7 @@
             font-weight: 500;
             font-size: 1.4em;
             text-align: left;
-            
         }
-        
         
         #side-panel p {
             margin: 8px 0 4px;
@@ -55,6 +52,7 @@
             text-align: left;
             font-size: 1em;
         }
+        
         #map {
             position: absolute;
             top: 0;
@@ -62,8 +60,7 @@
             right: 0;
             width: 67%;
         }
-        
-       /*  #map {
+        /*  #map {
             width: 60%;
             height: 540px;
             margin: 10px 10%;
@@ -71,7 +68,7 @@
             border: 2px solid #dddedf;
         }*/
         
-          #side-panel {
+        #side-panel {
             position: absolute;
             left: 0;
             top: 0;
@@ -82,7 +79,7 @@
             overflow-y: scroll;
         }
         
-       footer {
+        footer {
             padding: 6px 10%;
             width: 80%;
         }
@@ -91,64 +88,78 @@
             font-size: 1em;
             color: #001323;
         }
-        
     </style>
 </head>
 
 <body>
-    
+
     <div id="map"></div>
-    
+
     <div id="side-panel">
-            <div id="intro">
-            <h1>Agricultural Value-Based Supply Chains</h1>
+        <div id="intro">
+            <h1>Values-Based Food Supply Chains</h1>
 
-            <p>This map is an online database of Agricultural Value-based supply chains from data collected from 2014-2015</p>
+            <p>This map is an online database of Values-based food supply chains. Values-based food supply chains are strategic business alliances among farms/ranches of the middle and other agrifood enterprises that: (a) handle significant volumes of high-quality, differentiated food products, (b) operate effectively at multi-state, regional levels, and (c) distribute profits equitably among the strategic partners. Values-based supply chain business models place emphasis on both the values associated with the food and on the values associated with the business relationships within the food supply chain.</p>
 
-            <p>Data was acquired from a primary source database of value-based supply chains collected through an AFRI Ag in the Middle Multi-state Project.</p>
-            
+            <p>Data was acquired from a primary source database of value-based supply chains collected through an <a href="http://agofthemiddle.org/?cat=7">AFRI Ag in the Middle Multi-state Project</a></p>
+
             <p>Map developed by Heather Hyden</p>
-                
-            <h2>Select the boxes below to see where supply chains are located that fit your specifications </h2>    
-        </div>    
+
+            <h2>Select the boxes below to see where supply chains are located that fit your specifications </h2>
+        </div>
+
+        <h3>Geographic Service Area</h3>
+        <label>
+            <input type="checkbox" id="cbox1" value="county">County
+            <br>
+            <input type="checkbox" id="cbox2" value="state2">State
+            <br>
+            <input type="checkbox" id="cbox3" value="regional">Regional
+            <br>
+            <input type="checkbox" id="cbox4" value="national">National
+        </label>
 
         <h3>VBSC Type</h3>
-         <label>
-            <input type="checkbox" id="cbox1" value="cooperativ">Cooperative
+        <label>
+            <input type="checkbox" id="cbox1" value="cooperative">Cooperative
             <br>
             <input type="checkbox" id="cbox2" value="csa">CSA
             <br>
             <input type="checkbox" id="cbox3" value="food_hub">Food Hub
             <br>
-            <input type="checkbox" id="cbox4" value="online_de">Online Delivery
+            <input type="checkbox" id="cbox4" value="online_delivery">Online Delivery
         </label>
-        
+
         <h3>Value Claims</h3>
-            <label>
-            <input type="checkbox" id="cbox5" value="accessabil">Accessibility
+        <label>
+            <input type="checkbox" id="cbox5" value="accessability">Accessibility
             <br>
-            <input type="checkbox" id="cbox6" value="affordabil">Affordability
+            <input type="checkbox" id="cbox6" value="affordability">Affordability
+            <br>
+            <input type="checkbox" id="cbox7" value="commerce_economics_local_economy">Local Economic Development
             <br>
             <input type="checkbox" id="cbox7" value="community">Community
             <br>
-            <input type="checkbox" id="cbox8" value="education">Education
+            <input type="checkbox" id="cbox8" value="education_consumers">Consumer Education
+            <br>
+            <input type="checkbox" id="cbox8" value="education_farmers">Farmer Education
             <br>
             <input type="checkbox" id="cbox9" value="fair">Fair Trade
             <br>
             <input type="checkbox" id="cbox10" value="fresh">Fresh
             <br>
-            <input type="checkbox" id="cbox11" value="health_nut">Health and Nutrition
+            <input type="checkbox" id="cbox11" value="health_nutrition">Health and Nutrition
             <br>
-            <input type="checkbox" id="cbox12" value="humane_an">Humane:animals
+            <input type="checkbox" id="cbox12" value="humane_animal">Humane:animals
             <br>
             <input type="checkbox" id="cbox13" value="organic">Organic
             <br>
-            <input type="checkbox" id="cbox14" value="sustainabl">Sustainability
+            <input type="checkbox" id="cbox14" value="sustainable_environment">Sustainability
             <br>
-            <input type="checkbox" id="cbox15" value="transparen">Transparency
+            <input type="checkbox" id="cbox15" value="transparency">Transparency
             <br>
-            <input type="checkbox" id="cbox16" value="ahsf">Food Safety    
-        
+            <input type="checkbox" id="cbox16" value="ahsf">Food Safety
+
         </label>
 
         <h3>Products Available</h3>
@@ -157,18 +168,18 @@
             <br>
             <input type="checkbox" id="cbox18" value="meat">meat
             <br>
-            <input type="checkbox" id="cbox19" value="dairy">dairy 
+            <input type="checkbox" id="cbox19" value="dairy">dairy
             <br>
             <input type="checkbox" id="cbox20" value="seafood">seafood
             <br>
-            <input type="checkbox" id="cbox21" value="preserves">preserves/honey
+            <input type="checkbox" id="cbox21" value="preserves_honey">preserves/honey
             <br>
-            <input type="checkbox" id="cbox22" value="value_adde">value-added/dry-goods 
+            <input type="checkbox" id="cbox22" value="value_added">value-added/dry-goods
             <br>
-            <input type="checkbox" id="cbox23" value="produce">produce 
-        
+            <input type="checkbox" id="cbox23" value="produce">produce
+
         </label>
-         </div>
+    </div>
 
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 
@@ -186,7 +197,7 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        $.getJSON('https://hlhyden1.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM sites', function (data) {
+        $.getJSON('https://hlhyden1.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM pointswlatlon', function (data) {
             console.log(data); // you have access to the geojson data here!
 
 
@@ -204,7 +215,7 @@
                 },
                 onEachFeature: function (feature, layer) {
 
-                    var popup = '<b>Business Name:  </b>'+ feature.properties.business_n + '<br><b>Website:  </b>'+  feature.properties.business_w;
+                    var popup = '<b>City: </b>' + feature.properties.city + '<br><b>Business Name: </b>' + feature.properties.business_name + '<br><b>Website: </b><a href="' + feature.properties.website + '">' + feature.properties.website + '</a>'
 
                     layer.bindPopup(popup);
 
